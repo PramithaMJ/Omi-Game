@@ -6,37 +6,64 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.example.OmiGameLogic.ClientHandler;
+import org.example.OmiGame;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Server {
-    protected ServerSocket serverSocket;
+    private ServerSocket serverSocket;
+    private List<ClientHandler> clients;
 
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
+        this.clients = new ArrayList<>();
     }
 
-    //responsible for running the server
-    public void startServer(){
-        try{
-            while(!serverSocket.isClosed()){
-                //until a client is connecting this will wait for here
+    // responsible for running the server
+    public void startServer() {
+        try {
+            while (!serverSocket.isClosed()) {
+                // until a client is connecting this will wait for here
                 Socket socket = serverSocket.accept();
                 System.out.println("A new client has been connected");
-                ClientHandler clientHandler = new ClientHandler(socket); //objects of this class are responsible for keeping communication with clients
 
+                // Create a new client handler
+                ClientHandler clientHandler = new ClientHandler(socket);
+                clients.add(clientHandler);
+
+                // Start a new thread to handle client communication
                 Thread thread = new Thread(clientHandler);
                 thread.start();
-            }
-        }catch(IOException e){
 
+                // Check if we have four clients connected
+                if (clients.size() == 4) {
+                    startGame();
+                    break; // Exit the loop after starting the game
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void closeServerSocket(){//handle the ioexception occur in the start server method
-        try{
-            if(serverSocket != null){
+    private void startGame() {
+        System.out.println("Starting Omi Game...");
+        OmiGame omiGame = new OmiGame();
+        omiGame.playGame();
+    }
+
+    public void closeServerSocket() { // handle the ioexception occur in the start server method
+        try {
+            if (serverSocket != null) {
                 serverSocket.close();
             }
-        }catch (IOException e){
-                e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
