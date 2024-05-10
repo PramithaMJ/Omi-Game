@@ -4,13 +4,13 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client {
+public class Client1 {
     public Socket socket;
     public BufferedReader bufferedReader;
     public BufferedWriter bufferedWriter;
     private String username;
 
-    public Client(Socket socket,String username){
+    public Client1(Socket socket, String username){
         try{
             this.socket = socket;
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -74,14 +74,24 @@ public class Client {
         }
     }
 
+    public void sendMessageFromServer(String message) {
+        try {
+            bufferedWriter.write(message);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your username for the omi game: ");
         String username = scanner.nextLine();
         Socket socket = new Socket("localhost",1234);
-        Client client = new Client(socket,username);
-        client.listenForMessage();
-        client.sendMessage();
+        Client1 client1 = new Client1(socket,username);
+        client1.listenForMessage();
+        client1.sendMessage();
 
     }
 }

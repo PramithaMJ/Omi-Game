@@ -1,5 +1,12 @@
 package org.example.OmiGameLogic;
 
+import org.example.client.Client1;
+import org.example.client.Client2;
+import org.example.client.Client3;
+import org.example.client.Client4;
+
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,8 +21,16 @@ public class OmiGame {
     private Suit trumps;
     private Player winner;
 
+
+    private Client1 client1;
+    private Client2 client2;
+    private Client3 client3;
+    private Client4 client4;
+
+
     public OmiGame() {
         initializeGame();
+
     }
 
     private void initializeGame() {
@@ -33,6 +48,16 @@ public class OmiGame {
         dealerIndex = 0; // Assume player1 is the dealer initially
         roundNumber = 1;
         currentTrick = new ArrayList<>();
+
+        // Initialize client objects
+        try {
+            client1 = new Client1(new Socket("localhost", 1234), "Player 1");
+            client2 = new Client2(new Socket("localhost", 1234), "Player 2");
+            client3 = new Client3(new Socket("localhost", 1234), "Player 3");
+            client4 = new Client4(new Socket("localhost", 1234), "Player 4");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void dealCards() {
@@ -133,9 +158,23 @@ public class OmiGame {
     private void playTrick() {
         currentTrick.clear(); // Clear the current trick
         Player currentPlayer;
-        if(roundNumber==1){
-            currentPlayer = getCurrentRightPlayer(); // Start with the player to the right of the dealer
-        }else{
+        if (roundNumber % 4 == 1) {
+            currentPlayer = team1.getPlayer1(); // Player 1's turn
+            // Send message to Client 1
+            sendMessageToClient("Your turn, Player 1", team1.getPlayer1());
+        } else if (roundNumber % 4 == 2) {
+            currentPlayer = team1.getPlayer2(); // Player 2's turn
+            // Send message to Client 2
+            sendMessageToClient("Your turn, Player 2", team1.getPlayer2());
+        } else if (roundNumber % 4 == 3) {
+            currentPlayer = team2.getPlayer1(); // Player 3's turn
+            // Send message to Client 3
+            sendMessageToClient("Your turn, Player 3", team2.getPlayer1());
+        } else if(roundNumber % 4 == 0){
+            currentPlayer = team2.getPlayer2(); // Player 4's turn
+            // Send message to Client 4
+            sendMessageToClient("Your turn, Player 4", team2.getPlayer2());
+        }else {
             currentPlayer = winner;
         }
 
@@ -158,6 +197,22 @@ public class OmiGame {
         determineTrickWinner();
         removePlayedCards();
     }
+
+
+
+    private void sendMessageToClient(String message, Player player) {
+        if (player == team1.getPlayer1()) {
+            client1.sendMessageFromServer(message);
+        } else if (player == team1.getPlayer2()) {
+            client2.sendMessageFromServer(message);
+        } else if (player == team2.getPlayer1()) {
+            client3.sendMessageFromServer(message);
+        } else if (player == team2.getPlayer2()) {
+            client4.sendMessageFromServer(message);
+        }
+    }
+
+
 
     private Player getNextPlayer(Player currentPlayer) {
         if (currentPlayer == team1.getPlayer1()) {
