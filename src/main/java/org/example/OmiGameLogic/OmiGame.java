@@ -1,6 +1,4 @@
-package org.example;
-
-import org.example.OmiGameLogic.*;
+package org.example.OmiGameLogic;
 
 import java.util.ArrayList;
 import java.util.List;

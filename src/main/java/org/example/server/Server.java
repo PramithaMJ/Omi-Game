@@ -6,12 +6,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.example.OmiGameLogic.ClientHandler;
-import org.example.OmiGame;
+import org.example.OmiGameLogic.OmiGame;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 

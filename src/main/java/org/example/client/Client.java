@@ -82,5 +82,6 @@ public class Client {
         Client client = new Client(socket,username);
         client.listenForMessage();
         client.sendMessage();
+
     }
 }
