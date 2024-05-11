@@ -71,31 +71,41 @@ public class Player {
     }
 
     public Card playCard() {
-        System.out.println(name + ", Rank:");
+//        System.out.println(name + ", Rank:");
+        myClientHandler.broadcastMessage2(name + ", Rank:");
         Rank rank = null;
         Suit suit = null;
         try {
-            String rankInput = reader.readLine().toUpperCase();
+//            String rankInput = reader.readLine().toUpperCase();
+            String rankInput = myClientHandler.bufferedReader.readLine().toUpperCase();
+            System.out.println(rankInput);
             rank = Rank.valueOf(rankInput);
         } catch (IOException | IllegalArgumentException e) {
             System.out.println("Invalid input. Please enter a valid rank.");
+            myClientHandler.broadcastMessage2("Invalid input. Please enter a valid rank.");
             return playCard();
         }
 
         System.out.println("Suit");
+        myClientHandler.broadcastMessage2("Suit");
         try {
-            String suitInput = reader.readLine().toUpperCase();
+//            String suitInput = reader.readLine().toUpperCase();
+            String suitInput = myClientHandler.bufferedReader.readLine().toUpperCase();
             suit = Suit.valueOf(suitInput);
         } catch (IOException | IllegalArgumentException e) {
             System.out.println("Invalid input. Please enter a valid suit.");
+            myClientHandler.broadcastMessage2("Invalid input. Please enter a valid suit.");
             return playCard();
         }
 
         Card selectedCard = new Card(rank, suit);
         System.out.println(selectedCard);
+        myClientHandler.broadcastMessage2(selectedCard.toString());
+//        myClientHandler.broadcastMessage2(selectedCard.toString());
         if (hand.contains(selectedCard)) {
             printHand();
             System.out.println("You don't have that card. Please select a card from your hand.");
+            myClientHandler.broadcastMessage2("You don't have that card. Please select a card from your hand.");
             return playCard();
         }
 

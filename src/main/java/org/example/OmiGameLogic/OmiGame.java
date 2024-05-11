@@ -22,7 +22,7 @@ public class OmiGame {
     private List<Card> currentTrick;
     private Suit trumps;
     private Player winner;
-
+    private boolean namedTrump = false;
     private ArrayList<ClientHandler> list;
     private Client1 client1;
     private Client2 client2;
@@ -96,10 +96,11 @@ public class OmiGame {
                 sleep(5000);
                 String trumpInput = Message.getInstance().getMsg().trim();
                 // Split the input string by ": " and get the last part
-                String[] parts = trumpInput.split(": ");
-                String suitInput = parts[parts.length - 1].trim().toUpperCase();
-                trumps = Suit.valueOf(suitInput);
+//                String[] parts = trumpInput.split(": ");
+//                String suitInput = parts[parts.length - 1].trim().toUpperCase();
+                trumps = Suit.valueOf(trumpInput);
                 trumpFound = true;
+                this.namedTrump = true;
             } catch (IllegalArgumentException e) {
                 System.out.println("Invalid input. Please enter a valid suit.");
             } catch (InterruptedException e) {
@@ -205,11 +206,15 @@ public class OmiGame {
         }
 
         while (currentTrick.size() < 4) {
-            System.out.println(currentPlayer.getName() + "'s turn.");
-            System.out.println("Your hand:");
-            currentPlayer.getHand().forEach(System.out::println);
-
+            currentPlayer.getMyClientHandler().broadcastMessage2("Your turn, " + currentPlayer.getName() + "!");
+//            System.out.println(currentPlayer.getName() + "'s turn.");
+//            System.out.println("Your hand:");
+            currentPlayer.getMyClientHandler().broadcastMessage2("Your hand:");
+//            currentPlayer.getHand().forEach(System.out::println);
+            Player finalCurrentPlayer = currentPlayer;
+            currentPlayer.getHand().forEach(card -> finalCurrentPlayer.getMyClientHandler().broadcastMessage2(card.toString()));
             Card cardPlayed = currentPlayer.playCard();
+
             if (!isValidPlay(currentPlayer, cardPlayed)) {
                 System.out.println("Invalid play. Please follow suit if possible.");
                 continue;
@@ -338,10 +343,12 @@ public class OmiGame {
 
 //            System.out.println("Press enter to play round " + roundNumber);
 //            scanner.nextLine();
-            playTrick();
+            if (namedTrump) {
+                playTrick();
 
-            roundNumber++;
-        }
+                roundNumber++;
+            }
+            }
     }
 
 //    public static void main(String[] args) {
