@@ -58,7 +58,7 @@ public class ClientHandler implements Runnable {
 
     public void removeClientHandler() {
         clientHandlers.remove(this);
-        broadcastMessage("SERVER: " + clientUsername + " has left the game");
+        broadcastMessage("SERVER: " + clientUsername + " has left the Game!");
         try {
             socket.close();
         } catch (IOException e) {

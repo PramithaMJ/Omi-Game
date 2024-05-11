@@ -285,9 +285,13 @@ public class OmiGame {
     }
 
     public void playGame() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to OMI Game!");
+        play10Rounds();
 
+    }
+
+    public void play10Rounds(){
+        Scanner scanner = new Scanner(System.in);
         while (roundNumber <= 10) {  // Play 10 rounds
             System.out.println("\nRound " + roundNumber);
 
