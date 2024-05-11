@@ -1,7 +1,5 @@
 package org.example.client;
 
-import org.example.OmiGameLogic.OmiGame;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;

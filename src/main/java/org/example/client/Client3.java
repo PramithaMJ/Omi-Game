@@ -89,8 +89,8 @@ public class Client3 {
         System.out.println("Enter your username for the omi game: ");
         String username = scanner.nextLine();
         Socket socket = new Socket("localhost",1234);
-        Client1 client1 = new Client1(socket,username);
-        client1.listenForMessage();
-        client1.sendMessage();
+        Client3 client3 = new Client3(socket,username);
+        client3.listenForMessage();
+        client3.sendMessage();
     }
 }
