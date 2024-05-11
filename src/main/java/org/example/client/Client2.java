@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
+
 public class Client2 {
     public Socket socket;
     public BufferedReader bufferedReader;
