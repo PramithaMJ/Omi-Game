@@ -1,5 +1,7 @@
 package org.example.client;
 
+import org.example.OmiGameLogic.OmiGame;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -29,12 +31,13 @@ public class Client1 {
 
             Scanner scanner = new Scanner(System.in);
 
-            while(socket.isConnected()){
+           while(socket.isConnected()){
                 String messageToSend = scanner.nextLine();
                 bufferedWriter.write(username+": " + messageToSend);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             }
+
         }catch(IOException e){
             closeEverything(socket,bufferedWriter,bufferedReader);
         }
@@ -94,4 +97,15 @@ public class Client1 {
         client1.sendMessage();
 
     }
+
+    public void executePlay10Rounds() {
+        try {
+            bufferedWriter.write("playRound10");
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

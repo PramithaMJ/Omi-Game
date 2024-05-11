@@ -1,3 +1,4 @@
+/*
 package org.example.connection;
 
 import java.io.*;
@@ -29,3 +30,4 @@ public class ServerConnection {
         }
     }
 }
+*/
