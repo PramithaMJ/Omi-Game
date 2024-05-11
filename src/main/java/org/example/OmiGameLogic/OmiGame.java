@@ -228,13 +228,22 @@ public class OmiGame {
 
     private void sendMessageToClient(String message, Player player) {
         if (player == team1.getPlayer1()) {
-            client1.sendMessageFromServer(message);
+
+//            client1.sendMessageFromServer(message);
+
+            player.getMyClientHandler().broadcastMessage2(message);
+
+
+
         } else if (player == team1.getPlayer2()) {
-            client2.sendMessageFromServer(message);
+            player.getMyClientHandler().broadcastMessage2(message);
+//            client2.sendMessageFromServer(message);
         } else if (player == team2.getPlayer1()) {
-            client3.sendMessageFromServer(message);
+            player.getMyClientHandler().broadcastMessage2(message);
+//            client3.sendMessageFromServer(message);
         } else if (player == team2.getPlayer2()) {
-            client4.sendMessageFromServer(message);
+            player.getMyClientHandler().broadcastMessage2(message);
+//            client4.sendMessageFromServer(message);
         }
     }
 
@@ -327,8 +336,8 @@ public class OmiGame {
                 nameTrumps();
             }
 
-            System.out.println("Press enter to play round " + roundNumber);
-            scanner.nextLine();
+//            System.out.println("Press enter to play round " + roundNumber);
+//            scanner.nextLine();
             playTrick();
 
             roundNumber++;

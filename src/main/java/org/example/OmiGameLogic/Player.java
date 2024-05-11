@@ -21,7 +21,9 @@ public class Player {
     }
 
 
-
+    public ClientHandler getMyClientHandler() {
+        return myClientHandler;
+    }
 
     public void addToDeck(Card card){
         hand.add(card);
