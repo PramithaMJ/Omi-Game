@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.lang.Thread.sleep;
+
 public class OmiGame {
     private Team team1;
     private Team team2;
@@ -54,10 +56,10 @@ public class OmiGame {
 
         // Initialize client objects
         try {
-            client1 = new Client1(new Socket("localhost", 1234), "Player 1");
-            client2 = new Client2(new Socket("localhost", 1234), "Player 2");
-            client3 = new Client3(new Socket("localhost", 1234), "Player 3");
-            client4 = new Client4(new Socket("localhost", 1234), "Player 4");
+            client1 = new Client1(new Socket("localhost", 1235), "Player 1");
+            client2 = new Client2(new Socket("localhost", 1235), "Player 2");
+            client3 = new Client3(new Socket("localhost", 1235), "Player 3");
+            client4 = new Client4(new Socket("localhost", 1235), "Player 4");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -84,17 +86,38 @@ public class OmiGame {
     private void nameTrumps() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Player to the right of the dealer, please name trumps (CLUBS, DIAMONDS, HEARTS, SPADES):");
+
         getCurrentRightPlayer().printHand();
 
-        try {
-            String trumpInput = scanner.nextLine().toUpperCase();
-            trumps = Suit.valueOf(trumpInput);
+        boolean trumpFound = false;
 
-            System.out.println("Trumps named: " + trumps);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid input. Please enter a valid suit.");
-            nameTrumps();
+        while (!trumpFound) {
+            try {
+                sleep(5000);
+                String trumpInput = Message.getInstance().getMsg().trim();
+                // Split the input string by ": " and get the last part
+                String[] parts = trumpInput.split(": ");
+                String suitInput = parts[parts.length - 1].trim().toUpperCase();
+                trumps = Suit.valueOf(suitInput);
+                trumpFound = true;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid input. Please enter a valid suit.");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
+//        try {
+//
+//            String trumpInput = scanner.nextLine().toUpperCase();
+//            String trumpInput = Message.getInstance().getMsg().toUpperCase();
+//            trumps = Suit.valueOf(trumpInput);
+//
+//            System.out.println("Trumps named: " + trumps);
+//        } catch (IllegalArgumentException e) {
+//            System.out.println("Invalid input. Please enter a valid suit.");
+//            nameTrumps();
+//        }
     }
 
     private Player getCurrentDealer() {

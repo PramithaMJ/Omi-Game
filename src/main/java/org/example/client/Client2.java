@@ -109,7 +109,7 @@ public class Client2 {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your username for the omi game: ");
         String username = scanner.nextLine();
-        Socket socket = new Socket("localhost",1234);
+        Socket socket = new Socket("localhost",1235);
         Client2 client2 = new Client2(socket,username);
         client2.listenForMessage();
         client2.sendMessage();

@@ -1,5 +1,6 @@
 package org.example.client;
 
+import org.example.OmiGameLogic.Message;
 import org.example.server.Server;
 
 import java.io.*;
@@ -36,7 +37,7 @@ public class Client0 {
 
             while(socket.isConnected()){
                 String messageToSend = scanner.nextLine();
-                bufferedWriter.write(username+": " + messageToSend);
+                bufferedWriter.write(messageToSend);
 
                 System.out.println("Message sent: " + messageToSend);
 
@@ -59,7 +60,10 @@ public class Client0 {
                  while(socket.isConnected()){
                      try{
                          msgFromGroupChat = bufferedReader.readLine();
+
                          System.out.println(msgFromGroupChat);
+                         Message.getInstance().setMsg(msgFromGroupChat);;
+
 
                      }catch(IOException e){
                          closeEverything(socket,bufferedWriter,bufferedReader);
@@ -92,7 +96,7 @@ public class Client0 {
 
 
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(1234);
+        ServerSocket serverSocket = new ServerSocket(1235);
         Server server = new Server(serverSocket);
         Thread serverThread = new Thread(server);
         serverThread.start();
@@ -100,7 +104,7 @@ public class Client0 {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your username for the omi game: ");
         String username = scanner.nextLine();
-        Socket socket = new Socket("localhost",1234);
+        Socket socket = new Socket("localhost",1235);
 
         Client0 client1 = new Client0(socket,username);
         client1.listenForMessage();
