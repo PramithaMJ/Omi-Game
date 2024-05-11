@@ -21,7 +21,6 @@ public class Client2 {
             closeEverything(socket,bufferedWriter,bufferedReader);
         }
     }
-
     public void sendMessage(){
         try{
             bufferedWriter.write(username);
