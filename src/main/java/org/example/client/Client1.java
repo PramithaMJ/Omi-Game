@@ -10,6 +10,9 @@ public class Client1 {
     public BufferedWriter bufferedWriter;
     private String username;
 
+    String getUsername(){
+        return username;
+    }
     public Client1(Socket socket, String username){
         try{
             this.socket = socket;
@@ -19,6 +22,10 @@ public class Client1 {
         }catch(IOException e){
             closeEverything(socket,bufferedWriter,bufferedReader);
         }
+    }
+
+    public void sendMessage(String message) {
+        System.out.println(username + ", " + message);
     }
 
     public void sendMessage(){
@@ -32,6 +39,9 @@ public class Client1 {
            while(socket.isConnected()){
                 String messageToSend = scanner.nextLine();
                 bufferedWriter.write(username+": " + messageToSend);
+
+               System.out.println("Message sent: " + messageToSend);
+
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             }
@@ -40,6 +50,10 @@ public class Client1 {
             closeEverything(socket,bufferedWriter,bufferedReader);
         }
     }
+
+
+
+
 
     public void listenForMessage(){
          new Thread(new Runnable() {
@@ -51,6 +65,7 @@ public class Client1 {
                      try{
                          msgFromGroupChat = bufferedReader.readLine();
                          System.out.println(msgFromGroupChat);
+
                      }catch(IOException e){
                          closeEverything(socket,bufferedWriter,bufferedReader);
                      }
@@ -58,6 +73,10 @@ public class Client1 {
              }
          }).start();
     }
+
+
+
+
 
     public void closeEverything(Socket socket,BufferedWriter bufferedWriter,BufferedReader bufferedReader){
         try{

@@ -10,13 +10,20 @@ public class Player {
     private String name;
     private List<Card> hand;
     private BufferedReader reader;
+    private ClientHandler myClientHandler;
 
-    public Player(String name){
+    public Player(String name, ClientHandler clientHandler) {
         this.name = name;
         hand = new ArrayList<>();
         reader = new BufferedReader(new InputStreamReader(System.in));
+        myClientHandler = clientHandler;
+
     }
 
+
+    public void sendMessage(String message) {
+        System.out.println(name + ", " + message);
+    }
 
 
 
@@ -103,9 +110,25 @@ public class Player {
     }
 
     public void printHand() {
-        System.out.println(name+" Your hand:");
-        for (Card card : hand) {
-            System.out.println(card);
+        try {
+            myClientHandler.broadcastMessage2(name + " Please name the trumps");
+
+            myClientHandler.broadcastMessage2(name + " Your hand:");
+            for (Card card : hand) {
+                myClientHandler.broadcastMessage2(card.toString());
+            }
+
+            // Get input for naming the trumps
+            myClientHandler.broadcastMessage2(name + " Enter the trump suit (CLUBS, DIAMONDS, HEARTS, SPADES):");
+            String trumpInput = reader.readLine().toUpperCase();
+            Suit trumpSuit = Suit.valueOf(trumpInput);
+
+            // Broadcast the selected trump suit to all clients
+            myClientHandler.broadcastMessage("Trumps selected: " + trumpSuit.toString());
+        } catch (IOException | IllegalArgumentException e) {
+            System.out.println("Invalid input. Please try again.");
+            printHand(); // Call the method recursively if input is invalid
         }
     }
+
 }

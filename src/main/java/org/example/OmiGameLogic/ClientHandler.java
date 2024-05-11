@@ -11,7 +11,7 @@ public class ClientHandler implements Runnable {
     protected Socket socket;
     protected BufferedReader bufferedReader;
     protected BufferedWriter bufferedWriter;
-    private String clientUsername;
+    public String clientUsername;
 
     public ClientHandler(Socket socket) {
         try {
@@ -26,6 +26,11 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    public static ArrayList<ClientHandler> getClientHandlers() {
+        return clientHandlers;
+    }
+
+
     //everything below run method will run on multiple separate threads
     @Override
     public void run() {
@@ -39,6 +44,34 @@ public class ClientHandler implements Runnable {
             closeEverything(socket, bufferedReader, bufferedWriter);
         } finally {
             removeClientHandler();
+        }
+    }
+
+    public void broadcastMessage2(String messageToSend) {
+        for (ClientHandler clientHandler : clientHandlers) {
+            try {
+                if (clientHandler.clientUsername.equals(clientUsername)) {
+                    clientHandler.bufferedWriter.write(messageToSend);
+                    clientHandler.bufferedWriter.newLine();
+                    clientHandler.bufferedWriter.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void broadcastMessageToSingleClient(String messageToSend,Player player) {
+        for (ClientHandler clientHandler : clientHandlers) {
+            try {
+                if (clientHandler.clientUsername.equals(player.getName())) {
+                    clientHandler.bufferedWriter.write(messageToSend);
+                    clientHandler.bufferedWriter.newLine();
+                    clientHandler.bufferedWriter.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -79,6 +112,33 @@ public class ClientHandler implements Runnable {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private ClientHandler getClientHandlerForPlayer(Player player) {
+        for (ClientHandler clientHandler : ClientHandler.getClientHandlers()) {
+            if (clientHandler.clientUsername.equals(player.getName())) {
+                return clientHandler;
+            }
+        }
+        return null;
+    }
+
+    private String readInputFromClient(Player player) {
+        ClientHandler clientHandler = getClientHandlerForPlayer(player);
+        String input = null;
+        try {
+            input = clientHandler.bufferedReader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return input;
+    }
+
+    public void sendMessageToPlayer(Player player, String message) {
+        ClientHandler clientHandler = getClientHandlerForPlayer(player);
+        if (clientHandler != null) {
+            clientHandler.broadcastMessageToSingleClient(message,player);
         }
     }
 }

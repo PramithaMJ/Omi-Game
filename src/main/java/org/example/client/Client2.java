@@ -21,7 +21,6 @@ public class Client2 {
             closeEverything(socket,bufferedWriter,bufferedReader);
         }
     }
-
     public void sendMessage(){
         try{
             bufferedWriter.write(username);
@@ -33,6 +32,27 @@ public class Client2 {
             while(socket.isConnected()){
                 String messageToSend = scanner.nextLine();
                 bufferedWriter.write(username+": " + messageToSend);
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
+            }
+        }catch(IOException e){
+            closeEverything(socket,bufferedWriter,bufferedReader);
+        }
+    }
+
+
+    public void sendMessage2(){
+        try{
+            bufferedWriter.write(username);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+
+//            Scanner scanner = new Scanner(System.in);
+
+            while(socket.isConnected()){
+//                System.out.println("Message sent: " + 5);
+//                String messageToSend = scanner.nextLine();
+                bufferedWriter.write(username+": " + 5);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             }
@@ -83,6 +103,11 @@ public class Client2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void sendMessage(String message) {
+        System.out.println(username + ", " + message);
     }
 
     public static void main(String[] args) throws IOException {

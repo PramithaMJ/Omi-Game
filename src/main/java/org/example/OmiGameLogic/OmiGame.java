@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static org.example.OmiGameLogic.ClientHandler.clientHandlers;
+
 public class OmiGame {
     private Team team1;
     private Team team2;
@@ -21,15 +23,19 @@ public class OmiGame {
     private Suit trumps;
     private Player winner;
 
-
+    private ArrayList<ClientHandler> list;
     private Client1 client1;
     private Client2 client2;
     private Client3 client3;
     private Client4 client4;
 
+    ArrayList<ClientHandler> handlers = ClientHandler.getClientHandlers();
 
-    public OmiGame() {
+    public OmiGame(ArrayList<ClientHandler> lst) {
+        this.list = lst;
         initializeGame();
+
+
 
     }
 
@@ -37,10 +43,10 @@ public class OmiGame {
         deck = new Deck();
         deck.shuffle();
 
-        Player player1 = new Player("Player 1");
-        Player player2 = new Player("Player 2");
-        Player player3 = new Player("Player 3");
-        Player player4 = new Player("Player 4");
+        Player player1 = new Player("Player 1",list.get(1));
+        Player player2 = new Player("Player 2",list.get(2));
+        Player player3 = new Player("Player 3",list.get(3));
+        Player player4 = new Player("Player 4",list.get(4));
 
         team1 = new Team("Team A", player1, player2);
         team2 = new Team("Team B", player3, player4);
@@ -72,26 +78,33 @@ public class OmiGame {
             team2.getPlayer2().addToDeck(cards.get(index++));
         }
 
-        dealerIndex = (dealerIndex + 1) % 4;
+        dealerIndex = ((dealerIndex + 1) % 5)+1;
         System.out.println("Dealer: " + getCurrentDealer().getName());
         System.out.println("Deck cut by: " + getCurrentLeftPlayer().getName());
-        System.out.println("Cards dealt.");
+
+
     }
 
-    private void nameTrumps() {
+    private void nameTrumps(Player currentPlayer) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Player to the right of the dealer, please name trumps (CLUBS, DIAMONDS, HEARTS, SPADES):");
-        getCurrentRightPlayer().printHand();
-
+        currentPlayer.printHand();
         try {
             String trumpInput = scanner.nextLine().toUpperCase();
             trumps = Suit.valueOf(trumpInput);
-
+//            broadcastTrumpSelection(trumps);
             System.out.println("Trumps named: " + trumps);
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid input. Please enter a valid suit.");
-            nameTrumps();
+            nameTrumps(currentPlayer); // Call the method recursively until a valid input is provided
         }
+    }
+
+    private void broadcastTrumpSelection(Suit trumpSuit) {
+        String message = "Trumps selected: " + trumpSuit.toString();
+        sendMessageToClient(message, team1.getPlayer1());
+        sendMessageToClient(message, team1.getPlayer2());
+        sendMessageToClient(message, team2.getPlayer1());
+        sendMessageToClient(message, team2.getPlayer2());
     }
 
     private Player getCurrentDealer() {
@@ -209,6 +222,8 @@ public class OmiGame {
             client3.sendMessageFromServer(message);
         } else if (player == team2.getPlayer2()) {
             client4.sendMessageFromServer(message);
+        }else {
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++");
         }
     }
 
@@ -298,7 +313,8 @@ public class OmiGame {
             if (roundNumber == 1) {
                 deck.shuffle();
                 dealCards();
-                nameTrumps();
+                nameTrumps(getCurrentRightPlayer());
+
             }
 
             System.out.println("Press enter to play round " + roundNumber);
@@ -309,8 +325,8 @@ public class OmiGame {
         }
     }
 
-    public static void main(String[] args) {
-        OmiGame omiGame = new OmiGame();
-        omiGame.playGame();
-    }
+//    public static void main(String[] args) {
+//        OmiGame omiGame = new OmiGame();
+//        omiGame.playGame();
+//    }
 }

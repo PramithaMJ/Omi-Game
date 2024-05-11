@@ -21,6 +21,11 @@ public class Client3 {
         }
     }
 
+
+    public void sendMessage(String message) {
+        System.out.println(username + ", " + message);
+    }
+
     public void sendMessage(){
         try{
             bufferedWriter.write(username);
@@ -93,4 +98,6 @@ public class Client3 {
         client3.listenForMessage();
         client3.sendMessage();
     }
+
+
 }
