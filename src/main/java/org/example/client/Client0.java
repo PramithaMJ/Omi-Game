@@ -63,8 +63,6 @@ public class Client0 {
 
                          System.out.println(msgFromGroupChat);
                          Message.getInstance().setMsg(msgFromGroupChat);;
-
-
                      }catch(IOException e){
                          closeEverything(socket,bufferedWriter,bufferedReader);
                      }

@@ -40,8 +40,6 @@ public class OmiGame {
 
         initializeGame();
 
-
-
     }
 
     private void initializeGame() {
@@ -92,8 +90,10 @@ public class OmiGame {
     private void nameTrumps() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Player to the right of the dealer, please name trumps (CLUBS, DIAMONDS, HEARTS, SPADES):");
+        getCurrentRightPlayer().getMyClientHandler().broadcastMessage2("=============================================================");
        // myClientHandler.broadcastMessage2("Player to the right of the dealer, please name trumps (CLUBS, DIAMONDS, HEARTS, SPADES):");
         getCurrentRightPlayer().printHand();
+        getCurrentRightPlayer().getMyClientHandler().broadcastMessage2("Player to the right of the dealer, please name trumps (CLUBS, DIAMONDS, HEARTS, SPADES):");
 
         boolean trumpFound = false;
 
