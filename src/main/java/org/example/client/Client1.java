@@ -63,10 +63,6 @@ public class Client1 {
          }).start();
     }
 
-
-
-
-
     public void closeEverything(Socket socket,BufferedWriter bufferedWriter,BufferedReader bufferedReader){
         try{
             if(bufferedReader!=null){

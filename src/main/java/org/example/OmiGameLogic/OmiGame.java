@@ -29,9 +29,15 @@ public class OmiGame {
     private Client3 client3;
     private Client4 client4;
 
+/*    private ClientHandler myClientHandler;
+
+    public ClientHandler getMyClientHandler() {
+        return myClientHandler;
+    }*/
 
     public OmiGame(ArrayList<ClientHandler> lst) {
         this.list = lst;
+
         initializeGame();
 
 
@@ -86,7 +92,7 @@ public class OmiGame {
     private void nameTrumps() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Player to the right of the dealer, please name trumps (CLUBS, DIAMONDS, HEARTS, SPADES):");
-
+       // myClientHandler.broadcastMessage2("Player to the right of the dealer, please name trumps (CLUBS, DIAMONDS, HEARTS, SPADES):");
         getCurrentRightPlayer().printHand();
 
         boolean trumpFound = false;
@@ -238,8 +244,6 @@ public class OmiGame {
 
             player.getMyClientHandler().broadcastMessage2(message);
 
-
-
         } else if (player == team1.getPlayer2()) {
             player.getMyClientHandler().broadcastMessage2(message);
 //            client2.sendMessageFromServer(message);
@@ -251,8 +255,6 @@ public class OmiGame {
 //            client4.sendMessageFromServer(message);
         }
     }
-
-
 
     private Player getNextPlayer(Player currentPlayer) {
         if (currentPlayer == team1.getPlayer1()) {
@@ -348,7 +350,7 @@ public class OmiGame {
 
                 roundNumber++;
             }
-            }
+        }
     }
 
 //    public static void main(String[] args) {

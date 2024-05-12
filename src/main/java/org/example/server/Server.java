@@ -63,8 +63,6 @@ public class Server extends Thread {
         omiGame.playGame();
     }
 
-
-
     public void closeServerSocket() { // handle the ioexception occur in the start server method
         try {
             if (serverSocket != null) {

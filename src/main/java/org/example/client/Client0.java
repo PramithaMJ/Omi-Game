@@ -73,10 +73,6 @@ public class Client0 {
          }).start();
     }
 
-
-
-
-
     public void closeEverything(Socket socket,BufferedWriter bufferedWriter,BufferedReader bufferedReader){
         try{
             if(bufferedReader!=null){
@@ -92,7 +88,6 @@ public class Client0 {
             e.printStackTrace();
         }
     }
-
 
 
     public static void main(String[] args) throws IOException {
@@ -111,7 +106,4 @@ public class Client0 {
         client1.sendMessage();
 
     }
-
-
-
 }

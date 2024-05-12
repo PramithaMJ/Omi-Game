@@ -31,7 +31,7 @@ public class Client2 {
 
             while(socket.isConnected()){
                 String messageToSend = scanner.nextLine();
-                bufferedWriter.write(username+": " + messageToSend);
+                bufferedWriter.write(messageToSend);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             }
@@ -39,7 +39,6 @@ public class Client2 {
             closeEverything(socket,bufferedWriter,bufferedReader);
         }
     }
-
 
     public void sendMessage2(){
         try{

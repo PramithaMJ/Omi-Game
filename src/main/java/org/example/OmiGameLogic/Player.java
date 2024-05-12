@@ -17,7 +17,6 @@ public class Player {
         hand = new ArrayList<>();
         reader = new BufferedReader(new InputStreamReader(System.in));
         myClientHandler = clientHandler;
-
     }
 
 
@@ -118,7 +117,7 @@ public class Player {
     }
 
     public void printHand() {
-        myClientHandler.broadcastMessage2(name+" Your hand:");
+//        myClientHandler.broadcastMessage2(name+" Your hand:");
         myClientHandler.broadcastMessage2(name+" Your hand:");
         for (Card card : hand) {
             myClientHandler.broadcastMessage2(card.toString());
