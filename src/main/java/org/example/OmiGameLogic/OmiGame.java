@@ -99,7 +99,7 @@ public class OmiGame {
 
         while (!trumpFound) {
             try {
-                sleep(5000);
+                sleep(1000);
                 String trumpInput = Message.getInstance().getMsg().trim();
                 // Split the input string by ": " and get the last part
 //                String[] parts = trumpInput.split(": ");
@@ -241,9 +241,7 @@ public class OmiGame {
         if (player == team1.getPlayer1()) {
 
 //            client1.sendMessageFromServer(message);
-
             player.getMyClientHandler().broadcastMessage2(message);
-
         } else if (player == team1.getPlayer2()) {
             player.getMyClientHandler().broadcastMessage2(message);
 //            client2.sendMessageFromServer(message);

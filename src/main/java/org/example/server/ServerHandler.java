@@ -1,14 +1,13 @@
-package org.example.client;
+package org.example.server;
 
 import org.example.OmiGameLogic.Message;
-import org.example.server.Server;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client0 {
+public class ServerHandler {
     private static Server server;
     public Socket socket;
     public BufferedReader bufferedReader;
@@ -16,7 +15,7 @@ public class Client0 {
     private String username;
 //    private Server server;
 
-    public Client0(Socket socket, String username){
+    public ServerHandler(Socket socket, String username){
         try{
             this.socket = socket;
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -30,7 +29,7 @@ public class Client0 {
     public void sendMessage(){
         try{
             bufferedWriter.write(username);
-            bufferedWriter.newLine();
+           bufferedWriter.newLine();
             bufferedWriter.flush();
 
             Scanner scanner = new Scanner(System.in);
@@ -49,7 +48,6 @@ public class Client0 {
             closeEverything(socket,bufferedWriter,bufferedReader);
         }
     }
-
 
     public void listenForMessage(){
          new Thread(new Runnable() {
@@ -87,7 +85,6 @@ public class Client0 {
         }
     }
 
-
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(1235);
         Server server = new Server(serverSocket);
@@ -99,9 +96,8 @@ public class Client0 {
         String username = scanner.nextLine();
         Socket socket = new Socket("localhost",1235);
 
-        Client0 client1 = new Client0(socket,username);
+        ServerHandler client1 = new ServerHandler(socket,username);
         client1.listenForMessage();
         client1.sendMessage();
-
     }
 }

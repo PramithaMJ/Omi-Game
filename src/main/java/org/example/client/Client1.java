@@ -32,8 +32,7 @@ public class Client1 {
            while(socket.isConnected()){
                 String messageToSend = scanner.nextLine();
                 bufferedWriter.write(messageToSend);
-
-               System.out.println("Message sent: " + messageToSend);
+                System.out.println("Message sent: " + messageToSend);
 
                 bufferedWriter.newLine();
                 bufferedWriter.flush();

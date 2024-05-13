@@ -19,7 +19,6 @@ public class Player {
         myClientHandler = clientHandler;
     }
 
-
     public ClientHandler getMyClientHandler() {
         return myClientHandler;
     }
@@ -64,13 +63,13 @@ public class Player {
         return false; // Card not found in the hand
     }
 
-
     public String getName(){
         return name;
     }
 
     public Card playCard() {
 //        System.out.println(name + ", Rank:");
+        myClientHandler.broadcastMessage2("===============================");
         myClientHandler.broadcastMessage2(name + ", Rank:");
         Rank rank = null;
         Suit suit = null;
