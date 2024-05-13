@@ -98,7 +98,7 @@ public class Player {
 
         Card selectedCard = new Card(rank, suit);
         System.out.println(selectedCard);
-        myClientHandler.broadcastMessage2(selectedCard.toString());
+
 //        myClientHandler.broadcastMessage2(selectedCard.toString());
         if (hand.contains(selectedCard)) {
             printHand();
@@ -106,7 +106,7 @@ public class Player {
             myClientHandler.broadcastMessage2("You don't have that card. Please select a card from your hand.");
             return playCard();
         }
-
+        myClientHandler.broadcastMessage2(selectedCard.toString());
         hand.remove(selectedCard);
         return selectedCard;
     }

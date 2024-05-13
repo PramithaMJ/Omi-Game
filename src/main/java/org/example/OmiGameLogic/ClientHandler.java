@@ -68,6 +68,19 @@ public class ClientHandler implements Runnable {
             }
         }
     }
+    public void broadcastMessageWithPlayer(String username ,String messageToSend) {
+        for (ClientHandler clientHandler : clientHandlers) {
+            try {
+                if (!clientHandler.clientUsername.equals(clientUsername)) {
+                    clientHandler.bufferedWriter.write(messageToSend);
+                    clientHandler.bufferedWriter.newLine();
+                    clientHandler.bufferedWriter.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void removeClientHandler() {
         clientHandlers.remove(this);

@@ -37,7 +37,6 @@ public class Client1 {
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             }
-
         }catch(IOException e){
             closeEverything(socket,bufferedWriter,bufferedReader);
         }
@@ -90,7 +89,7 @@ public class Client1 {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your username for the omi game: ");
+        System.out.println("Enter your username for enter the omi game: ");
         String username = scanner.nextLine();
         Socket socket = new Socket("localhost",1235);
         Client1 client1 = new Client1(socket,username);

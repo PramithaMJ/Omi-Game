@@ -92,7 +92,7 @@ public class ServerHandler {
         serverThread.start();
 //        server.startServer();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your username for the omi game: ");
+        System.out.println(" Your username for the omi game: ");
         String username = scanner.nextLine();
         Socket socket = new Socket("localhost",1235);
 

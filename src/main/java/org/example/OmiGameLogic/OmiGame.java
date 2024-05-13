@@ -100,13 +100,16 @@ public class OmiGame {
         while (!trumpFound) {
             try {
                 sleep(1000);
-                String trumpInput = Message.getInstance().getMsg().trim();
+                String trumpInput = Message.getInstance().getMsg().trim().toUpperCase();
                 // Split the input string by ": " and get the last part
 //                String[] parts = trumpInput.split(": ");
 //                String suitInput = parts[parts.length - 1].trim().toUpperCase();
                 trumps = Suit.valueOf(trumpInput);
                 trumpFound = true;
                 this.namedTrump = true;
+                // broadcast
+                getCurrentRightPlayer().getMyClientHandler().broadcastMessage("========Selected Trumps: " + trumps+"========");
+
             } catch (IllegalArgumentException e) {
                 System.out.println("Invalid input. Please enter a valid suit.");
             } catch (InterruptedException e) {
@@ -220,14 +223,15 @@ public class OmiGame {
             Player finalCurrentPlayer = currentPlayer;
             currentPlayer.getHand().forEach(card -> finalCurrentPlayer.getMyClientHandler().broadcastMessage2(card.toString()));
             Card cardPlayed = currentPlayer.playCard();
-
+            currentPlayer.getMyClientHandler().broadcastMessage(currentPlayer.getName() + " ========== Played Cards " + cardPlayed+" ==========");
             if (!isValidPlay(currentPlayer, cardPlayed)) {
                 System.out.println("Invalid play. Please follow suit if possible.");
                 continue;
             }
-
             currentTrick.add(cardPlayed);
             System.out.println(currentPlayer.getName() + " played: " + cardPlayed);
+//broadcast
+
             currentPlayer = getNextPlayer(currentPlayer);
         }
 
@@ -327,7 +331,7 @@ public class OmiGame {
     }
 
     public void playGame() {
-        System.out.println("Welcome to OMI Game!");
+        System.out.println(" =========== Welcome to OMI Game! ================");
         play10Rounds();
 
     }
