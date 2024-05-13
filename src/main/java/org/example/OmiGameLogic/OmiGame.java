@@ -292,6 +292,8 @@ public class OmiGame {
 
         if (trickWinner != null) {
             System.out.println("Trick won by " + trickWinner.getName());
+            //broadcast
+            getCurrentRightPlayer().getMyClientHandler().broadcastMessage("Trick won by " + trickWinner.getName());
             winner = trickWinner;
         } else {
             System.out.println("Trick tied. No winner.");
