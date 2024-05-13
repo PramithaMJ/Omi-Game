@@ -47,8 +47,6 @@ public class Server extends Thread {
                     break; // Exit the loop after starting the game
                 }
 
-                //when message is received from the client
-
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -63,34 +61,26 @@ public class Server extends Thread {
         omiGame.playGame();
     }
 
-
-
     public void closeServerSocket() { // handle the ioexception occur in the start server method
         try {
             if (serverSocket != null) {
                 serverSocket.close();
             }
-
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
     public void init() throws IOException {
-        ServerSocket serverSocket = new ServerSocket(1234);
+        ServerSocket serverSocket = new ServerSocket(1235);
         Server server = new Server(serverSocket);
         server.startServer();
     }
 
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(1234);
+        ServerSocket serverSocket = new ServerSocket(1235);
         Server server = new Server(serverSocket);
         server.startServer();
-
     }
 
     @Override

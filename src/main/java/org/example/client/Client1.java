@@ -10,9 +10,6 @@ public class Client1 {
     public BufferedWriter bufferedWriter;
     private String username;
 
-    String getUsername(){
-        return username;
-    }
     public Client1(Socket socket, String username){
         try{
             this.socket = socket;
@@ -22,10 +19,6 @@ public class Client1 {
         }catch(IOException e){
             closeEverything(socket,bufferedWriter,bufferedReader);
         }
-    }
-
-    public void sendMessage(String message) {
-        System.out.println(username + ", " + message);
     }
 
     public void sendMessage(){
@@ -38,22 +31,16 @@ public class Client1 {
 
            while(socket.isConnected()){
                 String messageToSend = scanner.nextLine();
-                bufferedWriter.write(username+": " + messageToSend);
-
-               System.out.println("Message sent: " + messageToSend);
+                bufferedWriter.write(messageToSend);
+                System.out.println("Message sent: " + messageToSend);
 
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             }
-
         }catch(IOException e){
             closeEverything(socket,bufferedWriter,bufferedReader);
         }
     }
-
-
-
-
 
     public void listenForMessage(){
          new Thread(new Runnable() {
@@ -73,10 +60,6 @@ public class Client1 {
              }
          }).start();
     }
-
-
-
-
 
     public void closeEverything(Socket socket,BufferedWriter bufferedWriter,BufferedReader bufferedReader){
         try{
@@ -106,9 +89,9 @@ public class Client1 {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your username for the omi game: ");
+        System.out.println("Enter your username for enter the omi game: ");
         String username = scanner.nextLine();
-        Socket socket = new Socket("localhost",1234);
+        Socket socket = new Socket("localhost",1235);
         Client1 client1 = new Client1(socket,username);
         client1.listenForMessage();
         client1.sendMessage();

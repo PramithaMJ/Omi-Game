@@ -21,11 +21,6 @@ public class Client3 {
         }
     }
 
-
-    public void sendMessage(String message) {
-        System.out.println(username + ", " + message);
-    }
-
     public void sendMessage(){
         try{
             bufferedWriter.write(username);
@@ -36,7 +31,7 @@ public class Client3 {
 
             while(socket.isConnected()){
                 String messageToSend = scanner.nextLine();
-                bufferedWriter.write(username+": " + messageToSend);
+                bufferedWriter.write(messageToSend);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             }
@@ -93,11 +88,9 @@ public class Client3 {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your username for the omi game: ");
         String username = scanner.nextLine();
-        Socket socket = new Socket("localhost",1234);
+        Socket socket = new Socket("localhost",1235);
         Client3 client3 = new Client3(socket,username);
         client3.listenForMessage();
         client3.sendMessage();
     }
-
-
 }
